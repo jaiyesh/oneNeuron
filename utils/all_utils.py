@@ -4,6 +4,8 @@ import pandas as pd
 import joblib  # For storing model for sklearn as well as keras
 import os
 from matplotlib.colors import ListedColormap # For selecting Colors
+import logging
+
 plt.style.use('fivethirtyeight')
 
 
@@ -17,6 +19,7 @@ def prepare_data(df):
     Returns:
         tuple: returning dependent and independent variable tuples
     """
+    logging.info("preparing the data by segregating the independent and depenedent variables")
     X = df.drop('y',axis = 1)
     y = df['y']
 
@@ -31,10 +34,13 @@ def save_model(model,filename):
         model (object): Its a trained model
         filename (string): path to model save
     """
+    logging.info("Saving models")
     model_dir = 'NewModels' #Craeting directory for model saving
     os.makedirs(model_dir,exist_ok = True)  #Only create when model directory doesn't exist
     filePath = os.path.join(model_dir,filename) #model\filename
     joblib.dump(model,filePath)
+    logging.info(f"Saved the trainde model at {filePath}")
+
 
 
 
@@ -85,3 +91,4 @@ def save_plot(df,file_name,model):
     os.makedirs(plot_dir,exist_ok=True) 
     plotPath = os.path.join(plot_dir,file_name)
     plt.savefig(plotPath)
+    logging.info('Saving the plots')
